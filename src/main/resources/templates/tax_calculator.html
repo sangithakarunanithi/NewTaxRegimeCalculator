@@ -2,94 +2,114 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Tax Calculator</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/css/bootstrap.min.css">
     <style>
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f9;
+            background-color: #f0f2f5; /* Light gray background for a modern look */
             margin: 0;
             padding: 0;
             height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
-            flex-direction: column;
         }
+
         .container {
-            background-color: #ffffff;
-            padding: 40px;
-            border-radius: 10px;
-            box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
-            width: 80%;
+            background-color: #ffffff; /* White background for the container */
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            width: 100%;
             max-width: 600px;
             text-align: center;
         }
-        h1 {
-            color: #333333;
-            font-size: 28px;
-            margin-bottom: 30px;
-        }
-        label {
-            font-weight: bold;
-            margin-bottom: 15px;
-            display: block;
-            color: #555555;
-            font-size: 18px;
-        }
-        input[type="number"] {
-            width: 100%;
-            padding: 15px;
-            margin: 15px 0;
-            border: 1px solid #cccccc;
-            border-radius: 5px;
-            box-sizing: border-box;
-            font-size: 18px;
-        }
-        button {
-            width: 100%;
-            padding: 15px;
-            background-color: #4CAF50;
-            color: #ffffff;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 18px;
-            margin-top: 20px;
-        }
-        button:hover {
-            background-color: #45a049;
-        }
+
         .results {
             margin-top: 30px;
             padding: 20px;
-            background-color: #f9f9f9;
-            border: 1px solid #dddddd;
-            border-radius: 5px;
+            background-color: #e9ecef; /* Light gray background for results */
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
         }
+
         .results h2 {
-            margin: 0;
-            color: #333333;
-            font-size: 22px;
+            margin-bottom: 20px;
+            color: #343a40; /* Darker text color */
         }
-        .results p {
-            margin: 10px 0;
-            font-size: 18px;
-            color: #666666;
+
+        .results .row {
+            margin-bottom: 10px;
+        }
+
+        .results .col-6 {
+            font-weight: bold;
+            text-align: left;
+        }
+
+        .results .col-6.text-end {
+            text-align: right;
+        }
+
+        .btn-primary {
+            background-color: #007bff; /* Primary button color */
+            border-color: #007bff;
+            padding: 10px 20px;
+            font-size: 16px;
+        }
+
+        .btn-primary:hover {
+            background-color: #0056b3; /* Darker color on hover */
+            border-color: #004085;
+        }
+
+        input[type="text"] {
+            font-size: 16px;
+            padding: 10px;
+        }
+
+        label.form-label {
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        .form-control {
+            border-radius: 8px;
         }
     </style>
 </head>
 <body>
 <div class="container">
-    <h1>Tax Calculator (2024-25)</h1>
-    <form th:action="@{/calculateTax}" method="post" th:object="${userSalary}">
-        <label for="salary">Enter your Salary:</label>
-        <input type="number" id="salary" name="salary" th:field="*{salary}" required placeholder="Enter your salary in INR"/>
-        <button type="submit">Calculate Tax</button>
+    <h1 class="mb-4">New Regime Tax Calculator (2024-25)</h1>
+    <form th:action="@{/calculateTax}" method="post" th:object="${userSalary}" class="mb-4">
+        <div class="mb-3">
+            <label for="salary" class="form-label">Enter your Salary:</label>
+            <input type="text" id="salary" name="salary" th:field="*{salary}" class="form-control" required placeholder="Enter your salary in INR" oninput="updateNumberWord()"/>
+
+        </div> <br/> <br/>
+        <button type="submit" class="btn btn-primary">Calculate Tax</button>
     </form>
 
-    <div th:if="${tax != null}" class="results">
+    <div th:if="${taxCalculationResult != null}" class="results">
         <h2>Results</h2>
-        <p>For a salary of ₹<span th:text="${salary}"></span>, your tax payable is ₹<span th:text="${tax}"></span>.</p>
+        <div class="row">
+            <div class="col-6">Total Salary:</div>
+            <div class="col-6 text-end">₹<span th:text="${taxCalculationResult.salary}"></span></div>
+        </div>
+
+        <div class="row">
+            <div class="col-6">Tax Paid for This Year:</div>
+            <div class="col-6 text-end">₹<span th:text="${taxCalculationResult.tax}"></span></div>
+        </div>
+        <div class="row">
+            <div class="col-6">Monthly Take-Home Salary:</div>
+            <div class="col-6 text-end">₹<span th:text="${taxCalculationResult.monthlyTakeHome}"></span></div>
+        </div>
     </div>
 </div>
+
+<!-- Bootstrap JS (optional) -->
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+
 </body>
 </html>

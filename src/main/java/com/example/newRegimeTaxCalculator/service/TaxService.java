@@ -1,36 +1,45 @@
 package com.example.newRegimeTaxCalculator.service;
 
-
 import org.springframework.stereotype.Service;
 
 @Service
 public class TaxService {
 
-    public double calculateTax(double salary) {
-        double taxableIncome = salary - 50000; // Standard deduction
-        double tax = 0;
+    public TaxCalculationResult calculateTax(double salary) {
+        double tax = 0.0;
+        double deductions = 0.0; // No deductions in the new regime
+        double rebate = 0.0;
 
-        if (taxableIncome > 1500000) {
-            tax += (taxableIncome - 1500000) * 0.3;
-            taxableIncome = 1500000;
-        }
-        if (taxableIncome > 1200000) {
-            tax += (taxableIncome - 1200000) * 0.2;
-            taxableIncome = 1200000;
-        }
-        if (taxableIncome > 900000) {
-            tax += (taxableIncome - 900000) * 0.15;
-            taxableIncome = 900000;
-        }
-        if (taxableIncome > 600000) {
-            tax += (taxableIncome - 600000) * 0.1;
-            taxableIncome = 600000;
-        }
-        if (taxableIncome > 300000) {
-            tax += (taxableIncome - 300000) * 0.05;
+        double totalTaxableIncome = salary - deductions;
+
+        // Calculate tax based on slabs
+        if (totalTaxableIncome <= 300000) {
+            tax = 0;
+        } else if (totalTaxableIncome <= 600000) {
+            tax = (totalTaxableIncome - 300000) * 0.05;
+        } else if (totalTaxableIncome <= 900000) {
+            tax = 300000 * 0.05 + (totalTaxableIncome - 600000) * 0.10;
+        } else if (totalTaxableIncome <= 1200000) {
+            tax = 300000 * 0.05 + 300000 * 0.10 + (totalTaxableIncome - 900000) * 0.15;
+        } else if (totalTaxableIncome <= 1500000) {
+            tax = 300000 * 0.05 + 300000 * 0.10 + 300000 * 0.15 + (totalTaxableIncome - 1200000) * 0.20;
+        } else {
+            tax = 300000 * 0.05 + 300000 * 0.10 + 300000 * 0.15 + 300000 * 0.20 + (totalTaxableIncome - 1500000) * 0.30;
         }
 
-        return tax + (tax * 0.04); // Including Health and Education Cess of 4%
+        // Apply rebate if applicable
+        if (totalTaxableIncome <= 700000) {
+            rebate = Math.min(tax, 25000); // Rebate under Section 87A
+        }
+
+        tax -= rebate; // Subtract rebate from total tax
+
+        // Ensure tax is not negative
+        tax = Math.max(tax, 0);
+
+        double monthlyTakeHome = (salary - tax) / 12;
+
+        // Return a result with a breakdown
+        return new TaxCalculationResult(salary, tax, monthlyTakeHome);
     }
 }
-
