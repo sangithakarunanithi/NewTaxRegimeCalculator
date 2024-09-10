@@ -93,13 +93,22 @@
     <div th:if="${taxCalculationResult != null}" class="results">
         <h2>Results</h2>
         <div class="row">
-            <div class="col-6">Total Salary:</div>
+            <div class="col-6">Total Income:</div>
             <div class="col-6 text-end">₹<span th:text="${taxCalculationResult.salary}"></span></div>
+        </div>
+        <div class="row">
+            <div class="col-6">Exemption - Standard Deduction:</div>
+            <div class="col-6 text-end">₹<span th:text="${taxCalculationResult.deductions}"></span></div>
+        </div>
+
+        <div class="row">
+            <div class="col-6">Taxable Income :</div>
+            <div class="col-6 text-end">₹<span th:text="${taxCalculationResult.totalTaxableIncome}"></span></div>
         </div>
 
         <div class="row">
             <div class="col-6">Tax Paid for This Year:</div>
-            <div class="col-6 text-end">₹<span th:text="${taxCalculationResult.tax}"></span></div>
+            <div class="col-6 text-end">₹<span th:text="${taxCalculationResult.totalTax}"></span></div>
         </div>
         <div class="row">
             <div class="col-6">Monthly Take-Home Salary:</div>

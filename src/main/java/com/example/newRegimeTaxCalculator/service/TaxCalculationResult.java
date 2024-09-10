@@ -7,13 +7,17 @@ import lombok.NoArgsConstructor;
 @Data
 public class TaxCalculationResult {
     private final double salary;
-    private final double tax;
+    private final double deductions;
+    private final double totalTaxableIncome;
+    private final double totalTax;
     private final double monthlyTakeHome;
 
 
-    public TaxCalculationResult(double salary,  double tax, double monthlyTakeHome) {
+    public TaxCalculationResult(double salary, double deductions, double totalTaxableIncome, double totalTax, double monthlyTakeHome) {
         this.salary = salary;
-        this.tax = tax;
+        this.deductions = deductions;
+        this.totalTaxableIncome = totalTaxableIncome;
+        this.totalTax = totalTax;
         this.monthlyTakeHome = monthlyTakeHome;
     }
 }
