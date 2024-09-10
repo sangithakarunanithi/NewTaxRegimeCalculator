@@ -27,25 +27,35 @@ public class TaxService {
             tax = 400000 * 0.05 + 300000 * 0.10 + 200000 * 0.15 + 300000 * 0.20 + (totalTaxableIncome - 1500000) * 0.30;
         }
 
-        // Apply rebate if applicable
-        if (totalTaxableIncome <= 700000) {
+        System.out.println("tax after slab " + tax);
+
+        if (totalTaxableIncome <= 700000) { // Apply rebate if applicable
             System.out.println("Rebate Applicable");
             rebate = Math.min(tax, 25000); // Rebate under Section 87A
         }
 
         tax -= rebate; // Subtract rebate from total tax
+        tax = Math.max(tax, 0);  // Ensure tax is not negative
 
-        // Ensure tax is not negative
-        tax = Math.max(tax, 0);
+        System.out.println("tax after rebate " + tax);
 
-        //Apply Health and Education Cess
-        double cess = tax * 0.04;
+        double surcharge = 0.0;  // Apply Surcharge if applicable
+        if (totalTaxableIncome > 20000000) {
+            surcharge = tax * 0.25;
+        } else if (totalTaxableIncome > 10000000) {
+            surcharge = tax * 0.15;
+        } else if (totalTaxableIncome > 5000000) {
+            surcharge = tax * 0.10;
+        }
 
+        tax += surcharge; // Add surcharge to tax
 
-        // Final tax after adding cess
-        double totalTax = tax + cess;
+        System.out.println("tax after surchare " + tax);
+
+        double cess = tax * 0.04; //Apply Health and Education Cess
+        double totalTax = tax + cess; // Final tax after adding cess
+
         System.out.println("Total Tax Payable (with Cess) = " + totalTax);
-
 
         double monthlyTakeHome = Math.round((salary - totalTax) / 12);
 
