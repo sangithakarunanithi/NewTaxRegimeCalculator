@@ -6,14 +6,14 @@ import lombok.NoArgsConstructor;
 
 @Data
 public class TaxCalculationResult {
-    private final double salary;
+    private final String salary;
     private final double deductions;
-    private final double totalTaxableIncome;
-    private final double totalTax;
-    private final double monthlyTakeHome;
+    private final String totalTaxableIncome;
+    private final String totalTax;
+    private final String monthlyTakeHome;
 
 
-    public TaxCalculationResult(double salary, double deductions, double totalTaxableIncome, double totalTax, double monthlyTakeHome) {
+    public TaxCalculationResult(String salary, double deductions, String totalTaxableIncome, String totalTax, String monthlyTakeHome) {
         this.salary = salary;
         this.deductions = deductions;
         this.totalTaxableIncome = totalTaxableIncome;

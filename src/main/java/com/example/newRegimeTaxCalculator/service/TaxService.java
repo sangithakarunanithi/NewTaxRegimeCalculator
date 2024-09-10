@@ -2,14 +2,19 @@ package com.example.newRegimeTaxCalculator.service;
 
 import org.springframework.stereotype.Service;
 
+import java.text.DecimalFormat;
+
 @Service
 public class TaxService {
+
+    private static final DecimalFormat df = new DecimalFormat("#,##,##0.00");
 
     public TaxCalculationResult calculateTax(double salary) {
         double tax = 0.0;
         double deductions = 75000; // 2024 Standard deduction is 75k
         double rebate = 0.0;
         double totalTaxableIncome = salary - deductions;
+
 
 
         // Calculate tax based on slabs
@@ -55,11 +60,15 @@ public class TaxService {
         double cess = tax * 0.04; //Apply Health and Education Cess
         double totalTax = tax + cess; // Final tax after adding cess
 
-        System.out.println("Total Tax Payable (with Cess) = " + totalTax);
 
-        double monthlyTakeHome = Math.round((salary - totalTax) / 12);
+        // Format the results to remove Exponential format
+        String formattedTotalTax = df.format(totalTax);
+        String monthlyTakeHome = df.format(Math.round((salary - totalTax) / 12));
+        String formattedSalary = df.format(salary);
+        String formattedTotalTaxableIncome = df.format(totalTaxableIncome);
+        System.out.println("formattedTotalTaxableIncome" +formattedTotalTaxableIncome);
 
         // Return a result with a breakdown
-        return new TaxCalculationResult(salary, deductions, totalTaxableIncome, totalTax, monthlyTakeHome);
+        return new TaxCalculationResult(formattedSalary, deductions, formattedTotalTaxableIncome, formattedTotalTax, monthlyTakeHome);
     }
 }
