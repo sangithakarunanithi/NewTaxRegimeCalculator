@@ -84,7 +84,7 @@
     <form th:action="@{/calculateTax}" method="post" th:object="${userSalary}" class="mb-4">
         <div class="mb-3">
             <label for="salary" class="form-label">Enter your Salary:</label>
-            <input type="text" id="salary" name="salary" th:field="*{salary}" class="form-control" required placeholder="Enter your salary in INR" oninput="updateNumberWord()"/>
+            <input type="text" id="salary" name="salary" th:field="*{salary}" class="form-control" required placeholder="Enter your salary in INR" />
 
         </div> <br/> <br/>
         <button type="submit" class="btn btn-primary">Calculate Tax</button>
@@ -93,7 +93,7 @@
     <div th:if="${taxCalculationResult != null}" class="results">
         <h2>Results</h2>
         <div class="row">
-            <div class="col-6">Total Income:</div>
+            <div class="col-6">Salary Income:</div>
             <div class="col-6 text-end">₹<span th:text="${taxCalculationResult.salary}"></span></div>
         </div>
         <div class="row">
@@ -102,7 +102,7 @@
         </div>
 
         <div class="row">
-            <div class="col-6">Taxable Income :</div>
+            <div class="col-6">Taxable Income:</div>
             <div class="col-6 text-end">₹<span th:text="${taxCalculationResult.totalTaxableIncome}"></span></div>
         </div>
 
