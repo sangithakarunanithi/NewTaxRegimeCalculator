@@ -9,10 +9,11 @@ public class TaxService {
 
     private static final DecimalFormat df = new DecimalFormat("#,##,##0.00");
 
-    public TaxCalculationResult calculateTax(double salary) {
+    public TaxCalculationResult calculateTax(String inputSalary) {
         double tax = 0.0;
         double deductions = 75000; // 2024 Standard deduction is 75k
         double rebate = 0.0;
+        double salary = Double.valueOf(inputSalary);
         double totalTaxableIncome = salary - deductions;
 
 

@@ -13,6 +13,7 @@ public class UserSalary {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private double salary;
+   // private double salary;
 
+    private String salary;
 }
