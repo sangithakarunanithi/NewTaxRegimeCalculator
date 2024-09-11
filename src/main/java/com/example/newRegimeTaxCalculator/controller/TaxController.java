@@ -1,7 +1,6 @@
 package com.example.newRegimeTaxCalculator.controller;
 
 import com.example.newRegimeTaxCalculator.entity.UserSalary;
-import com.example.newRegimeTaxCalculator.repository.UserSalaryRepository;
 import com.example.newRegimeTaxCalculator.service.TaxCalculationResult;
 import com.example.newRegimeTaxCalculator.service.TaxService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,11 +15,6 @@ public class TaxController {
 
     @Autowired
     private TaxService taxService;
-
-    @Autowired
-    private UserSalaryRepository userSalaryRepository;
-
-
 
     @GetMapping("/")
     public String showForm(Model model) {
