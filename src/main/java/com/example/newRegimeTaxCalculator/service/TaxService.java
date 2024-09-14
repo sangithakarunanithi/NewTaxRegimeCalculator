@@ -62,14 +62,35 @@ public class TaxService {
         double totalTax = tax + cess; // Final tax after adding cess
 
 
-        // Format the results to remove Exponential format
-        String formattedTotalTax = df.format(totalTax);
-        String monthlyTakeHome = df.format(Math.round((salary - totalTax) / 12));
+
+        String formattedTotalTax = df.format(totalTax);  // Format the results to remove Exponential format
+        String monthlyTakeHome = calculateMonthlyTakeHome(salary,totalTax);
         String formattedSalary = df.format(salary);
         String formattedTotalTaxableIncome = df.format(totalTaxableIncome);
         System.out.println("formattedTotalTaxableIncome" +formattedTotalTaxableIncome);
 
         // Return a result with a breakdown
         return new TaxCalculationResult(formattedSalary, deductions, formattedTotalTaxableIncome, formattedTotalTax, monthlyTakeHome);
+    }
+
+    private String calculateMonthlyTakeHome(double salary, double totalTax) {
+
+        double basicSalaryPercentage = 40.0;   //Calculate Basic Salary-  40% to 50% usually,  PF - 12% of the Basic Salary
+        double annualBasicSalary = (basicSalaryPercentage / 100) * salary;
+        double monthlyBasicSalary = annualBasicSalary / 12;
+
+        double pfPercentage = 12.0;
+        double pfMonthlyContribution = (pfPercentage / 100) * monthlyBasicSalary;
+
+        System.out.println("PF contribution " +pfMonthlyContribution );
+
+
+        double monthlyTakehome = Math.round((salary - totalTax) / 12);
+        monthlyTakehome = monthlyTakehome - pfMonthlyContribution;
+        monthlyTakehome  =Math.round(monthlyTakehome);
+        System.out.println("monthlyTakehome  " +monthlyTakehome );
+
+
+        return df.format(monthlyTakehome);
     }
 }
